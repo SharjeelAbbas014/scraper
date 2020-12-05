@@ -1,10 +1,11 @@
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup as soup
 import pandas as pd
+import smtplib
 names = []
 numbs = []
 p = 1
-for i in range(1,500):
+for i in range(1,1000):
   url = 'https://www.texasrealestate.com/realtors/realtor-search-results/?results_page='+str(i)
   req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
   webpage = urlopen(req).read()
@@ -31,4 +32,11 @@ for i in range(1,500):
     df["Numbers"] = newNumbs
     nameOfFile = "new"+str(p)+".csv"
     print("Adding "+ nameOfFile)
-    df.to_csv(+nameOfFile)
+    df.to_csv(nameOfFile)
+    s = smtplib.SMTP('smtp.gmail.com', 587)
+    s.starttls() 
+    s.login("sharjeelabbas014@gmail.com", "ozvgfsespnifsxmp")
+    message = nameOfFile = "new"+str(p)+".csv"
+    s.sendmail("sharjeelabbas014@gmail.com", "sharjeelabbas014@gmail.com", message) 
+    s.quit() 
+    p=p+1
