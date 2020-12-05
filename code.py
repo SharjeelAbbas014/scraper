@@ -8,6 +8,7 @@ p = 1
 for i in range(1,1000):
   url = 'https://www.texasrealestate.com/realtors/realtor-search-results/?results_page='+str(i)
   req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+  print("page "+ str(i))
   webpage = urlopen(req).read()
   page_soup = soup(webpage, 'html.parser')
   allNames = page_soup.findAll('h5', 'realtor-name')
@@ -21,7 +22,7 @@ for i in range(1,1000):
     numbers = page_soup.findAll('div','realtor-profile-intro')
 
     for num in numbers:
-     numbs.append(str(num.find('p').text)[num.find('p').text.find('('):])
+      numbs.append(str(num.find('p').text)[num.find('p').text.find('('):])
   if(i%50 == 0):
     df = pd.DataFrame()
     newNumbs = []
