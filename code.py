@@ -28,16 +28,21 @@ for i in range(1,5440):
       numbers = page_soup.findAll('div','realtor-profile-intro')
 
       for num in numbers:
-        numbs.append(str(num.find('p').text)[num.find('p').text.find('('):])
+        n = str(num.find('p').text)[num.find('p').text.find('('):]
+        numbs.append(n)
     if(i%50 == 0):
       df = pd.DataFrame()
       newNumbs = []
       for n in numbs:
-        newNumbs.append(n[:n.find('\r')])
+        nu = n[:n.find('\r')]
+        if len(str(nu)) != len('(281) 292-3499') :
+          newNumbs.append("NULL")
+        else:
+          newNumbs.append(str(n[:n.find('\r')]))
 
       df["Names"] = names[:len(newNumbs)]
       df["Numbers"] = newNumbs
-      df["Address"] = addressFinals
+      df["Address"] = addressFinals[:len(newNumbs)]
       addressFinals = []
       newNumbs = []
       numbs = []
